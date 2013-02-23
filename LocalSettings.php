@@ -139,8 +139,3 @@ require_once( "$IP/extensions/ParserFunctions/ParserFunctions.php" );
 require_once( "$IP/extensions/Renameuser/Renameuser.php" );
 require_once( "$IP/extensions/Vector/Vector.php" );
 require_once( "$IP/extensions/WikiEditor/WikiEditor.php" );
-
-
-# End of automatically generated settings.
-# Add more configuration options below.
-
