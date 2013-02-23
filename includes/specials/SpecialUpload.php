@@ -92,8 +92,31 @@ class SpecialUpload extends SpecialPage {
 		$this->mDesiredDestName   = $request->getText( 'wpDestFile' );
 		if( !$this->mDesiredDestName && $request->getFileName( 'wpUploadFile' ) !== null ) {
 			$this->mDesiredDestName = $request->getFileName( 'wpUploadFile' );
+			$this->mAuthor            = $request->getText( 'wpAuthor' );
+      $this->mSrcUrl            = $request->getText( 'wpSrcUrl' );
+      $this->mNickName          = $request->getText( 'wpNickName' );
+      foreach (explode(" ", $this->mAuthor) as $author) {
+          if ($author != "") {
+              $this->mComment .= "[[分类:作者:$author]]";
+          }
+      }
+
+      foreach (explode(" ", $this->mNickName) as $catagory) {
+          if ($catagory != "") {
+              $this->mComment .= "[[分类:$catagory]]";
+          }
+      }
+      if ($this->mSrcUrl != "") {
+          $this->mComment .= "源地址:".$this->mSrcUrl;
+      }
+      if ($request->getText( 'wpUploadDescription' ) != "") {
+          if ($this->mSrcUrl != "") {
+              $this->mComment .= " ";
+          }
+          $this->mComment .= $request->getText( 'wpUploadDescription' );
+      }
 		}
-		$this->mComment           = $request->getText( 'wpUploadDescription' );
+		//$this->mComment           = $request->getText( 'wpUploadDescription' );
 		$this->mLicense           = $request->getText( 'wpLicense' );
 
 
@@ -948,6 +971,30 @@ class UploadForm extends HTMLForm {
 				'default' => $this->mComment,
 				'cols' => intval( $this->getUser()->getOption( 'cols' ) ),
 				'rows' => 8,
+			),
+			'NickName' => array(
+				'type' => 'text',
+				'section' => 'description',
+				'id' => 'wpNickName',
+				'label-message' => '人物名',
+				'size' => 60,
+				'default' => $this->mNickName,
+			),
+			'Author' => array(
+				'type' => 'text',
+				'section' => 'description',
+				'id' => 'wpAuthor',
+				'label-message' => '作者',
+				'size' => 60,
+				'default' => $this->mAuthor,
+			),
+			'SrcUrl' => array(
+				'type' => 'text',
+				'section' => 'description',
+				'id' => 'wpSrcUrl',
+				'label-message' => '源地址',
+				'size' => 60,
+				'default' => $this->mSrcUrl,
 			)
 		);
 		if ( $this->mTextAfterSummary ) {
